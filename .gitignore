@@ -1,2 +1,9 @@
 workspace/*
-!workspace/example
+!workspace/examplei
+files/css/*.scss
+files/css/bourbon/*
+files/css/neat/*
+files/css/base/*
+files/css/.sass-cache/*
+files/css/main.css.map
+
