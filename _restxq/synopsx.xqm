@@ -79,7 +79,7 @@ function home(){
     }
   let $outputParams := map {
     'lang' : 'fr',
-    'layout' : 'synopsx.xhtml',
+    'layout' : 'home.xhtml',
     'pattern' : 'inc_defaultItem.xhtml',
     'xsl':'tei2html.xsl'
     }  
@@ -100,7 +100,7 @@ function config() as element(html) {
     }
   let $outputParams :=map {
     'lang' : 'fr',
-    'layout' : 'config.xhtml',
+    'layout' : 'synopsx.xhtml',
     'pattern' : 'inc_configItem.xhtml'
     (: specify an xslt mode and other kind of output options :)
     }
@@ -129,7 +129,10 @@ declare
   %output:html-version('5.0')
 function create_project() as element(html) {
   let $queryParams := map {
-    
+    'project' : $synopsx.synopsx:project,
+    'dbName' :  $synopsx.synopsx:db,
+    'model' : 'synopsx' ,
+    'function' : 'getCreateProject'
     }
   let $outputParams :=map {
     'lang' : 'fr',
