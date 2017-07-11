@@ -41,13 +41,39 @@ declare default function namespace 'synopsx.mappings.jsoner' ;
  : @param $data the result of the query
  : @param $outputParams the serialization params
  : @return an updated HTML document and instantiate pattern
- 
  : @todo treat in the same loop @* and text() ?
  @todo add handling of outputParams (for example {class} attribute or call to an xslt)
  :)
-
-
 declare function jsoner($queryParams, $data, $outputParams) {
-  let $content := map:get($data, 'content')
-  return map:get($content, 'tei')
+  let $contents := map:get($data, 'content')
+  let $meta := map:get($data, 'meta')
+  return map{
+    'meta' : sequence2ArrayInMap($meta),
+    'content' : for $content in $contents 
+      return sequence2ArrayInMap($content)
+  } 
+};
+
+(:~
+ : this function transforms a map into a map with arrays
+ :
+ : @param $map the map to convert
+ : @return a map with array instead of sequences
+ : @rmq deals only with right keys
+ :)
+declare function sequence2ArrayInMap($map as map(*) ) as map(*) {
+  map:merge((
+    map:for-each(
+      $map,
+      function($a, $b) {
+        map:entry(
+          $a ,
+          if(fn:count($b) > 1)
+          then let $array := array {}
+            for $item in $b return array:append($array, $item)
+          else $b
+        )
+      }
+    )
+  )) 
 };
